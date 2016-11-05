@@ -1,11 +1,19 @@
 {
   "intents": [
     {
-      "intent": "AddPlayerIntent",
+      "intent": "BoredIntent",
       "slots": [
         {
-          "name": "PlayerName",
-          "type": "LIST_OF_PLAYER_NAMES"
+          "answer": "answer"
+          //"type": "LIST_OF_PLAYER_NAMES"
+        }
+      ]
+    },
+    {
+      "intent": "EnergeticIntent",
+      "slots": [
+        {
+          "answer": "answer"
         }
       ]
     },

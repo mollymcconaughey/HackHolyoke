@@ -1,3 +1,10 @@
+BoredIntent i am bored
+BoredIntent bored
+
+EnergeticIntent energy
+EnergeticIntent can’t sit still
+EnergeticIntent 
+
 ResetPlayersIntent clear
 ResetPlayersIntent clear a game
 ResetPlayersIntent clear game
