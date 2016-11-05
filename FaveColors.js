@@ -76,11 +76,11 @@ HackFeelings.prototype.eventHandlers.onSessionEnded = function (sessionEndedRequ
 };
 
 HackFeelings.prototype.intentHandlers = {
-    "handleFeelingIntent": function (intent, session, response) {
+    "HandleFeelingIntent": function (intent, session, response) {
         handleFeelingIntent(session, response);
     },
 
-    "firstResponseIntent": function (intent, session, response) {
+    "FirstResponseIntent": function (intent, session, response) {
         firstResponseIntent(session, response);
     },
 
@@ -133,6 +133,7 @@ HackFeelings.prototype.intentHandlers = {
  */
 function handleFeelingIntent(session, response) {
     var speechText = "";
+    const feelingSlot = intent.slots.Feeling; //get slot
 
     //Reprompt speech will be triggered if the user doesn't respond.
     var repromptText = "Are you still bored?";
@@ -143,7 +144,9 @@ function handleFeelingIntent(session, response) {
         //Ensure the dialogue is on the correct stage.
         if (session.attributes.stage === 0) {
             //The joke is already initialized, this function has no more work.
-            speechText = "What are you feeling?";
+
+            speechText = "Are you still ${feelingSlot.value}";
+
         } else {
             //The user attempted to jump to the intent of another stage.
             // session.attributes.stage = 0;
@@ -154,7 +157,7 @@ function handleFeelingIntent(session, response) {
         //Select a random joke and store it in the session variables.
         // var jokeID = Math.floor(Math.random() * JOKE_LIST.length);
 
-        // //The stage variable tracks the phase of the dialogue. 
+        // //The stage variable tracks the phase of the dialogue.
         // //When this function completes, it will be on stage 1.
         // session.attributes.stage = 1;
         // session.attributes.setup = JOKE_LIST[jokeID].setup;
@@ -181,6 +184,8 @@ function handleFeelingIntent(session, response) {
 function handlefirstResponseIntent(session, response) {
     var feeling = "";
     var repromptText = "";
+    const responseSlot = intent.slots.Response; //get slot
+    const responseVal = responseSlot.value;
 
     if (session.attributes.stage) {
         if (session.attributes.stage === 1) {
@@ -190,7 +195,13 @@ function handlefirstResponseIntent(session, response) {
             //Advance the stage of the dialogue.
             session.attributes.stage = 2;
 
-            repromptText = "Are you still feeling" + feeling + " ?";
+            if(responseVal === 'yes'){
+              repromptText = "That's good.";
+            }else{
+              repromptText = "Are you feeling better now?";
+            }
+
+
         } else {
             // session.attributes.stage = 1;
             // feeling = "That's not how knock knock jokes work! <break time=\"0.3s\" /> "
@@ -200,7 +211,7 @@ function handlefirstResponseIntent(session, response) {
         }
     } else {
 
-        //If the session attributes are not found, the joke must restart. 
+        //If the session attributes are not found, the joke must restart.
         feeling = "Sorry, I couldn't understand you "
             + "You can say, I am feeling bored.";
 
@@ -283,4 +294,3 @@ exports.handler = function (event, context) {
     var skill = new HackFeelings();
     skill.execute(event, context);
 };
-
