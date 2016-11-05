@@ -87,9 +87,9 @@ HackFeelings.prototype.intentHandlers = {
         firstResponseIntent(session, response);
     },
 
-    // "SecondResponseIntent": function (intent, session, response) {
-    //     handleSetupNameWhoIntent(session, response);
-    // },
+    "SecondResponseIntent": function (intent, session, response) {
+        handleSetupNameWhoIntent(session, response);
+    },
 
     "AMAZON.HelpIntent": function (intent, session, response) {
         var speechText = "";
@@ -151,23 +151,23 @@ function handleFeelingIntent(session, response) {
             speechText = "Are you still ${feelingSlot.value}";
 
         } else {
-            //The user attempted to jump to the intent of another stage.
-            // session.attributes.stage = 0;
-            // speechText = "That's not how knock knock jokes work! "
-            //     + "knock knock";
+            The user attempted to jump to the intent of another stage.
+            session.attributes.stage = 0;
+            speechText = "That's not how knock knock jokes work! "
+                + "knock knock";
         }
     } else {
-        //Select a random joke and store it in the session variables.
-        // var jokeID = Math.floor(Math.random() * JOKE_LIST.length);
+        Select a random joke and store it in the session variables.
+        var jokeID = Math.floor(Math.random() * JOKE_LIST.length);
 
-        // //The stage variable tracks the phase of the dialogue.
-        // //When this function completes, it will be on stage 1.
-        // session.attributes.stage = 1;
-        // session.attributes.setup = JOKE_LIST[jokeID].setup;
-        // session.attributes.speechPunchline = JOKE_LIST[jokeID].speechPunchline;
-        // session.attributes.cardPunchline = JOKE_LIST[jokeID].cardPunchline;
+        //The stage variable tracks the phase of the dialogue.
+        //When this function completes, it will be on stage 1.
+        session.attributes.stage = 1;
+        session.attributes.setup = JOKE_LIST[jokeID].setup;
+        session.attributes.speechPunchline = JOKE_LIST[jokeID].speechPunchline;
+        session.attributes.cardPunchline = JOKE_LIST[jokeID].cardPunchline;
 
-        // speechText = "Knock knock!";
+        speechText = "Knock knock!";
     }
 
     var speechOutput = {
@@ -207,11 +207,11 @@ function handlefirstResponseIntent(session, response) {
 
 
         } else {
-            // session.attributes.stage = 1;
-            // feeling = "That's not how knock knock jokes work! <break time=\"0.3s\" /> "
-            //     + "knock knock";
+            session.attributes.stage = 1;
+            feeling = "That's not how knock knock jokes work! <break time=\"0.3s\" /> "
+                + "knock knock";
 
-            // repromptText = "You can ask, who's there."
+            repromptText = "You can ask, who's there."
         }
     } else {
 
