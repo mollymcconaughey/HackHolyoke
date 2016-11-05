@@ -1,301 +1,286 @@
-'use strict';
 
 /**
- * This sample demonstrates a simple skill built with the Amazon Alexa Skills Kit.
- * The Intent Schema, Custom Slots, and Sample Utterances for this skill, as well as
- * testing instructions are located at http://amzn.to/1LzFrj6
+ * App ID for the skill
+ */
+var APP_ID = undefined;//replace with 'amzn1.echo-sdk-ams.app.[your-unique-value-here]';
+
+/**
+ * Array containing knock knock jokes.
+ */
+// var JOKE_LIST = [
+//     {setup: "To", speechPunchline: "Correct grammar is <break time=\"0.2s\" /> to whom.",
+//         cardPunchline: "Correct grammar is 'to whom'."},
+//     {setup: "Beets!", speechPunchline: "Beats me!", cardPunchline: "Beats me!"},
+//     {setup: "Little Old Lady", speechPunchline: "I didn't know you could yodel!",
+//         cardPunchline: "I didn't know you could yodel!"},
+//     {setup: "A broken pencil", speechPunchline: "Never mind. It's pointless.",
+//         cardPunchline: "Never mind. It's pointless."},
+//     {setup: "Snow", speechPunchline: "Snow use. I forgot", cardPunchline: "Snow use. I forgot"},
+//     {setup: "Boo", speechPunchline: "Aww <break time=\"0.3s\" /> it's okay <break time=\"0.3s\" /> don't cry.",
+//         cardPunchline: "Aww, it's okay, don't cry."},
+//     {setup: "Woo", speechPunchline: "Don't get so excited, it's just a joke",
+//         cardPunchline: "Don't get so excited, it's just a joke"},
+//     {setup: "Spell", speechPunchline: "<say-as interpret-as=\"characters\">who</say-as>",
+//         cardPunchline: "w.h.o"},
+//     {setup: "Atch", speechPunchline: "I didn't know you had a cold!", cardPunchline: "I didn't know you had a cold!"},
+//     {setup: "Owls", speechPunchline: "Yes, they do.", cardPunchline: "Yes, they do."},
+//     {setup: "Berry!", speechPunchline: "Berry nice to meet you.", cardPunchline: "Berry nice to meet you."}
+// ];
+
+/**
+ * The AlexaSkill prototype and helper functions
+ */
+var AlexaSkill = require('./AlexaSkill');
+
+/**
+ * HackFeelings is a child of AlexaSkill.
+ * To read more about inheritance in JavaScript, see the link below.
  *
- * For additional samples, visit the Alexa Skills Kit Getting Started guide at
- * http://amzn.to/1LGWsLG
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript#Inheritance
  */
+var HackFeelings = function () {
+    AlexaSkill.call(this, APP_ID);
+};
 
-
-// --------------- Helpers that build all of the responses -----------------------
-
-function buildSpeechletResponse(title, output, repromptText, shouldEndSession) {
-    return {
-        outputSpeech: {
-            type: 'PlainText',
-            text: output,
-        },
-        card: {
-            type: 'Simple',
-            title: `SessionSpeechlet - ${title}`,
-            content: `SessionSpeechlet - ${output}`,
-        },
-        reprompt: {
-            outputSpeech: {
-                type: 'PlainText',
-                text: repromptText,
-            },
-        },
-        shouldEndSession,
-    };
-}
-
-function buildResponse(sessionAttributes, speechletResponse) {
-    return {
-        version: '1.0',
-        sessionAttributes,
-        response: speechletResponse,
-    };
-}
-
-
-// --------------- Functions that control the skill's behavior -----------------------
-
-function getWelcomeResponse(callback) {
-    // If we wanted to initialize the session to have some attributes we could add those here.
-    const sessionAttributes = {};
-    const cardTitle = 'Welcome';
-    const speechOutput = 'Tell me what\'s going on. ';
-    // If the user either does not reply to the welcome message or says something that is not
-    // understood, they will be prompted again with this text.
-    const repromptText = 'Please tell me what you are feeling. ' +
-        'I am bored.';
-    const shouldEndSession = false;
-
-    callback(sessionAttributes,
-        buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
-}
-
-function handleSessionEndRequest(callback) {
-    const cardTitle = 'Session Ended';
-    const speechOutput = 'Thank you for trying the Alexa Skills Kit sample. Have a nice day!';
-    // Setting this to true ends the session and exits the skill.
-    const shouldEndSession = true;
-
-    callback({}, buildSpeechletResponse(cardTitle, speechOutput, null, shouldEndSession));
-}
-
-function createFeelingAttributes(feeling) {
-    return {
-        feeling,
-    };
-}
-
-function createBoredResponseAttributes(boredResponse) {
-    return {
-        boredResponse,
-    };
-}
+// Extend AlexaSkill
+HackFeelings.prototype = Object.create(AlexaSkill.prototype);
+HackFeelings.prototype.constructor = HackFeelings;
 
 /**
- * Sets the color in the session and prepares the speech to reply to the user.
+ * Overriden to show that a subclass can override this function to initialize session state.
  */
-function setFeelingInSession(intent, session, callback) {
-    const cardTitle = intent.name;
-    const feelingSlot = intent.slots.Feeling;
-    //const responseSlot = i
-    let repromptText = '';
-    let sessionAttributes = {};
-    const shouldEndSession = false;
-    let speechOutput = '';
+HackFeelings.prototype.eventHandlers.onSessionStarted = function (sessionStartedRequest, session) {
+    console.log("onSessionStarted requestId: " + sessionStartedRequest.requestId
+        + ", sessionId: " + session.sessionId);
 
-    if (feelingSlot) {
-        const feeling = feelingSlot.value;
-        sessionAttributes = createFeelingAttributes(feeling);
-        if (feeling === 'bored') {
-            speechOutput = `Okay you are ${feeling}.`;
-            repromptText = "You can ask me what to do by saying, I am bored";
-
-
-            // shouldEndSession = false;
-        }
-        else if(feeling === 'happy'){
-          speechOutput = `Okay you are ${feeling}.`;
-        }
-        else{
-          speechOutput = `Okay.`;
-        }
-
-
-        boredResponseF(intent, session, callback, speechOutput);
-
-        // speechOutput = `I now know your feeling is ${feeling}. You can ask me ` +
-        //     "your favorite color by saying, what's my favorite color?";
-        // repromptText = "You can ask me your favorite color by saying, what's my favorite color?";
-    } else {
-        speechOutput = "I'm not sure what your favorite color is. Please try again.";
-        repromptText = "I'm not sure what your favorite color is. You can tell me your " +
-            'favorite color by saying, my favorite color is red';
-    }
-
-    // callback(sessionAttributes,
-    //      buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
-}
-
-
-
-/*Bored response*/
-function boredResponseF (intent, session, callback, speechOutput) {
-    let sessionAttributes = {};
-    const cardTitle = intent.name;
-    const boredResponseSlot = intent.slots.BoredResponse;
-    let repromptText = '';
-    if (boredResponse === 'yes') {
-        const boredResponse = boredResponseSlot.value;
-        sessionAttributes = createBoredResponseAttributes(boredResponse);
-        //speechOutput = `One ${feeling}. `;
-        speechOutput += `Here are some fun activities: do a paint by numbers.`;
-        repromptText = "You can tell me if you are still bored.";
-        finalResponse(intent, session, callback, speechOutput);
-    }
-    else{
-      //finalResponse(intent, session, callback, speechOutput);
-    }
-    // callback(sessionAttributes,
-    //      buildSpeechletResponse(intent.name, speechOutput, repromptText, true));
-
-}
-
-
-
-/*final response*/
-function finalResponse (intent, session, callback, speechOutput) {
-    let sessionAttributes = {};
-    const cardTitle = intent.name;
-    const boredResponseSlot = intent.slots.BoredResponse;
-    let repromptText = '';
-    if (boredResponse === 'yes') {
-        const boredResponse = boredResponseSlot.value;
-        sessionAttributes = createBoredResponseAttributes(boredResponse);
-        //speechOutput = `One ${feeling}. `;
-        speechOutput += `Here are some fun facts: Camels have three eyelids.`;
-        repromptText = "You can tell me if you are still bored.";
-        //finalResponse(intent, session, callback, speechOutput);
-    }
-    else{
-
-    }
-    callback(sessionAttributes,
-         buildSpeechletResponse(intent.name, speechOutput, repromptText, true));
-
-}
-
-
-
-function getFeelingFromSession(intent, session, callback) {
-    let feeling;
-    const repromptText = null;
-    const sessionAttributes = {};
-    let shouldEndSession = false;
-    let speechOutput = '';
-
-    if (session.attributes) {
-        feeling = session.attributes.feeling;
-    }
-
-    if (feeling) {
-        if (feeling === 'bored') {
-            speechOutput = `You are feeling ${feeling}.`;
-        }
-        // speechOutput = `You are feeling ${feeling}.`;
-        //shouldEndSession = true;
-    } else {
-        speechOutput = "I'm not sure what your are feeling, you can say, I am " +
-            ' bored';
-    }
-
-    // Setting repromptText to null signifies that we do not want to reprompt the user.
-    // If the user does not respond or says something that is not understood, the session
-    // will end.
-    callback(sessionAttributes,
-         buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession));
-}
-
-
-// --------------- Events -----------------------
+    // Any session init logic would go here.
+};
 
 /**
- * Called when the session starts.
+ * If the user launches without specifying an intent, route to the correct function.
  */
-function onSessionStarted(sessionStartedRequest, session) {
-    console.log(`onSessionStarted requestId=${sessionStartedRequest.requestId}, sessionId=${session.sessionId}`);
-}
+HackFeelings.prototype.eventHandlers.onLaunch = function (launchRequest, session, response) {
+    console.log("HackFeelings onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
+
+    handleFeelingIntent(session, response);
+};
 
 /**
- * Called when the user launches the skill without specifying what they want.
+ * Overriden to show that a subclass can override this function to teardown session state.
  */
-function onLaunch(launchRequest, session, callback) {
-    console.log(`onLaunch requestId=${launchRequest.requestId}, sessionId=${session.sessionId}`);
+HackFeelings.prototype.eventHandlers.onSessionEnded = function (sessionEndedRequest, session) {
+    console.log("onSessionEnded requestId: " + sessionEndedRequest.requestId
+        + ", sessionId: " + session.sessionId);
 
-    // Dispatch to your skill's launch.
-    getWelcomeResponse(callback);
-}
+    //Any session cleanup logic would go here.
+};
 
-/**
- * Called when the user specifies an intent for this skill.
- */
-function onIntent(intentRequest, session, callback) {
-    console.log(`onIntent requestId=${intentRequest.requestId}, sessionId=${session.sessionId}`);
+HackFeelings.prototype.intentHandlers = {
+    "handleFeelingIntent": function (intent, session, response) {
+        handleFeelingIntent(session, response);
+    },
 
-    const intent = intentRequest.intent;
-    const intentName = intentRequest.intent.name;
+    "firstResponseIntent": function (intent, session, response) {
+        firstResponseIntent(session, response);
+    },
 
-    // Dispatch to your skill's intent handlers
-    if (intentName === 'MyFeelingIsIntent') {
-        setFeelingInSession(intent, session, callback);
-    } else if (intentName === 'WhatsMyFeelingIntent') {
-        getFeelingFromSession(intent, session, callback);
-    } else if (intentName === 'AMAZON.HelpIntent') {
-        getWelcomeResponse(callback);
-    } else if (intentName === 'AMAZON.StopIntent' || intentName === 'AMAZON.CancelIntent') {
-        handleSessionEndRequest(callback);
-    } else {
-        throw new Error('Invalid intent');
-    }
-}
+    // "SecondResponseIntent": function (intent, session, response) {
+    //     handleSetupNameWhoIntent(session, response);
+    // },
 
-/**
- * Called when the user ends the session.
- * Is not called when the skill returns shouldEndSession=true.
- */
-function onSessionEnded(sessionEndedRequest, session) {
-    console.log(`onSessionEnded requestId=${sessionEndedRequest.requestId}, sessionId=${session.sessionId}`);
-    // Add cleanup logic here
-}
+    "AMAZON.HelpIntent": function (intent, session, response) {
+        var speechText = "";
 
-
-// --------------- Main handler -----------------------
-
-// Route the incoming request based on type (LaunchRequest, IntentRequest,
-// etc.) The JSON body of the request is provided in the event parameter.
-exports.handler = (event, context, callback) => {
-    try {
-        console.log(`event.session.application.applicationId=${event.session.application.applicationId}`);
-
-        /**
-         * Uncomment this if statement and populate with your skill's application ID to
-         * prevent someone else from configuring a skill that sends requests to this function.
-         */
-        /*
-        if (event.session.application.applicationId !== 'amzn1.echo-sdk-ams.app.[unique-value-here]') {
-             callback('Invalid Application ID');
-        }
-        */
-
-        if (event.session.new) {
-            onSessionStarted({ requestId: event.request.requestId }, event.session);
+        switch (session.attributes.stage) {
+            case 0:
+                speechText = "Why did you want to talk?";
+                break;
+            case 1:
+                speechText = "Are you still bored?";
+                break;
+            case 2:
+                speechText = "Good luck!";
+                break;
+            default:
+                speechText = "What are you feeling?";
         }
 
-        if (event.request.type === 'LaunchRequest') {
-            onLaunch(event.request,
-                event.session,
-                (sessionAttributes, speechletResponse) => {
-                    callback(null, buildResponse(sessionAttributes, speechletResponse));
-                });
-        } else if (event.request.type === 'IntentRequest') {
-            onIntent(event.request,
-                event.session,
-                (sessionAttributes, speechletResponse) => {
-                    callback(null, buildResponse(sessionAttributes, speechletResponse));
-                });
-        } else if (event.request.type === 'SessionEndedRequest') {
-            onSessionEnded(event.request, event.session);
-            callback();
-        }
-    } catch (err) {
-        callback(err);
+        var speechOutput = {
+            speech: speechText,
+            type: AlexaSkill.speechOutputType.PLAIN_TEXT
+        };
+        var repromptOutput = {
+            speech: speechText,
+            type: AlexaSkill.speechOutputType.PLAIN_TEXT
+        };
+        // For the repromptText, play the speechOutput again
+        response.ask(speechOutput, repromptOutput);
+    },
+
+    "AMAZON.StopIntent": function (intent, session, response) {
+        var speechOutput = "Goodbye";
+        response.tell(speechOutput);
+    },
+
+    "AMAZON.CancelIntent": function (intent, session, response) {
+        var speechOutput = "Goodbye";
+        response.tell(speechOutput);
     }
 };
+
+/**
+ * Selects a joke randomly and starts it off by saying "Knock knock".
+ */
+function handleFeelingIntent(session, response) {
+    var speechText = "";
+
+    //Reprompt speech will be triggered if the user doesn't respond.
+    var repromptText = "Are you still bored?";
+
+    //Check if session variables are already initialized.
+    if (session.attributes.stage) {
+
+        //Ensure the dialogue is on the correct stage.
+        if (session.attributes.stage === 0) {
+            //The joke is already initialized, this function has no more work.
+            speechText = "What are you feeling?";
+        } else {
+            //The user attempted to jump to the intent of another stage.
+            // session.attributes.stage = 0;
+            // speechText = "That's not how knock knock jokes work! "
+            //     + "knock knock";
+        }
+    } else {
+        //Select a random joke and store it in the session variables.
+        // var jokeID = Math.floor(Math.random() * JOKE_LIST.length);
+
+        // //The stage variable tracks the phase of the dialogue. 
+        // //When this function completes, it will be on stage 1.
+        // session.attributes.stage = 1;
+        // session.attributes.setup = JOKE_LIST[jokeID].setup;
+        // session.attributes.speechPunchline = JOKE_LIST[jokeID].speechPunchline;
+        // session.attributes.cardPunchline = JOKE_LIST[jokeID].cardPunchline;
+
+        // speechText = "Knock knock!";
+    }
+
+    var speechOutput = {
+        speech: speechText,
+        type: AlexaSkill.speechOutputType.PLAIN_TEXT
+    };
+    var repromptOutput = {
+        speech: repromptText,
+        type: AlexaSkill.speechOutputType.PLAIN_TEXT
+    };
+    response.askWithCard(speechOutput, repromptOutput, "Hack Feelings", speechText);
+}
+
+/**
+ * Responds to the user saying "Who's there".
+ */
+function handlefirstResponseIntent(session, response) {
+    var feeling = "";
+    var repromptText = "";
+
+    if (session.attributes.stage) {
+        if (session.attributes.stage === 1) {
+            //Retrieve the joke's setup text.
+            feeling = session.attributes.setup;
+
+            //Advance the stage of the dialogue.
+            session.attributes.stage = 2;
+
+            repromptText = "Are you still feeling" + feeling + " ?";
+        } else {
+            // session.attributes.stage = 1;
+            // feeling = "That's not how knock knock jokes work! <break time=\"0.3s\" /> "
+            //     + "knock knock";
+
+            // repromptText = "You can ask, who's there."
+        }
+    } else {
+
+        //If the session attributes are not found, the joke must restart. 
+        feeling = "Sorry, I couldn't understand you "
+            + "You can say, I am feeling bored.";
+
+        repromptText = "You can say, I am bored.";
+    }
+
+    var speechOutput = {
+        speech: '<speak>' + feeling + '</speak>',
+        type: AlexaSkill.speechOutputType.SSML
+    };
+    var repromptOutput = {
+        speech: '<speak>' + repromptText + '</speak>',
+        type: AlexaSkill.speechOutputType.SSML
+    };
+    response.ask(speechOutput, repromptOutput);
+}
+
+/**
+ * Delivers the punchline of the joke after the user responds to the setup.
+ */
+// function handleSetupNameWhoIntent(session, response) {
+//     var speechText = "",
+//         repromptText = "",
+//         speechOutput,
+//         repromptOutput,
+//         cardOutput;
+
+//     if (session.attributes.stage) {
+//         if (session.attributes.stage === 2) {
+//             speechText = session.attributes.speechPunchline;
+//             cardOutput = session.attributes.cardPunchline;
+//             speechOutput = {
+//                 speech: '<speak>' + speechText + '</speak>',
+//                 type: AlexaSkill.speechOutputType.SSML
+//             };
+//             //If the joke completes successfully, this function uses a "tell" response.
+//             response.tellWithCard(speechOutput, "Wise Guy", cardOutput);
+//         } else {
+
+//             session.attributes.stage = 1;
+//             speechText = "That's not how knock knock jokes work! <break time=\"0.3s\" /> "
+//                 + "Knock knock!";
+//             cardOutput = "That's not how knock knock jokes work! "
+//                 + "Knock knock!";
+
+//             repromptText = "You can ask who's there.";
+
+//             speechOutput = {
+//                 speech: speechText,
+//                 type: AlexaSkill.speechOutputType.SSML
+//             };
+//             repromptOutput = {
+//                 speech: repromptText,
+//                 type: AlexaSkill.speechOutputType.PLAIN_TEXT
+//             };
+//             //If the joke has to be restarted, this function uses an "ask" response.
+//             response.askWithCard(speechOutput, repromptOutput, "Wise Guy", cardOutput);
+//         }
+//     } else {
+//         speechText = "Sorry, I couldn't correctly retrieve the joke. "
+//             + "You can say, tell me a joke";
+
+//         repromptText = "You can say, tell me a joke";
+
+//         speechOutput = {
+//             speech: speechText,
+//             type: AlexaSkill.speechOutputType.PLAIN_TEXT
+//         };
+//         repromptOutput = {
+//             speech: repromptText,
+//             type: AlexaSkill.speechOutputType.PLAIN_TEXT
+//         };
+//         response.askWithCard(speechOutput, repromptOutput, "Hack Feelings", speechOutput);
+//     }
+// }
+
+// Create the handler that responds to the Alexa Request.
+exports.handler = function (event, context) {
+    // Create an instance of the WiseGuy Skill.
+    var skill = new HackFeelings();
+    skill.execute(event, context);
+};
+
