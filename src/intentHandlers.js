@@ -15,31 +15,34 @@ var textHelper = require('./textHelper'),
 var registerIntentHandlers = function (intentHandlers, skillContext) {
     intentHandlers.NewGameIntent = function (intent, session, response) {
         //reset scores for all existing players
-        storage.loadGame(session, function (currentGame) {
-            if (currentGame.data.players.length === 0) {
-                response.ask('New game started. Who\'s your first player?',
-                    'Please tell me who\'s your first player?');
-                return;
-            }
-            currentGame.data.players.forEach(function (player) {
-                currentGame.data.scores[player] = 0;
-            });
-            currentGame.save(function () {
-                var speechOutput = 'New game started with '
-                    + currentGame.data.players.length + ' existing player';
-                if (currentGame.data.players.length > 1) {
-                    speechOutput += 's';
-                }
-                speechOutput += '.';
-                if (skillContext.needMoreHelp) {
-                    speechOutput += '. You can give a player points, add another player, reset all players or exit. What would you like?';
-                    var repromptText = 'You can give a player points, add another player, reset all players or exit. What would you like?';
-                    response.ask(speechOutput, repromptText);
-                } else {
-                    response.tell(speechOutput);
-                }
-            });
-        });
+        response.ask('New game started. Who\'s your first player?',
+            'Please tell me who\'s your first player?');
+
+        // storage.loadGame(session, function (currentGame) {
+        //     if (currentGame.data.players.length === 0) {
+        //         response.ask('New game started. Who\'s your first player?',
+        //             'Please tell me who\'s your first player?');
+        //         return;
+        //     }
+        //     currentGame.data.players.forEach(function (player) {
+        //         currentGame.data.scores[player] = 0;
+        //     });
+        //     currentGame.save(function () {
+        //         var speechOutput = 'New game started with '
+        //             + currentGame.data.players.length + ' existing player';
+        //         if (currentGame.data.players.length > 1) {
+        //             speechOutput += 's';
+        //         }
+        //         speechOutput += '.';
+        //         if (skillContext.needMoreHelp) {
+        //             speechOutput += '. You can give a player points, add another player, reset all players or exit. What would you like?';
+        //             var repromptText = 'You can give a player points, add another player, reset all players or exit. What would you like?';
+        //             response.ask(speechOutput, repromptText);
+        //         } else {
+        //             response.tell(speechOutput);
+        //         }
+        //     });
+        // });
     };
 
     intentHandlers.BoredIntent = function (intent, session, response) {
