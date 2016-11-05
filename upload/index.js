@@ -2,30 +2,28 @@
 /**
  * App ID for the skill
  */
-var APP_ID = 'amzn1.ask.skill.be3ad8ab-b28a-4eba-b9bd-44deebdd11ae';//replace with 'amzn1.echo-sdk-ams.app.[your-unique-value-here]';
+var APP_ID = 'amzn1.echo-sdk-ams.app.be3ad8ab-b28a-4eba-b9bd-44deebdd11ae';//replace with 'amzn1.echo-sdk-ams.app.[your-unique-value-here]';
 
 /**
  * Array containing knock knock jokes.
  */
-// var JOKE_LIST = [
-//     {setup: "To", speechPunchline: "Correct grammar is <break time=\"0.2s\" /> to whom.",
-//         cardPunchline: "Correct grammar is 'to whom'."},
-//     {setup: "Beets!", speechPunchline: "Beats me!", cardPunchline: "Beats me!"},
-//     {setup: "Little Old Lady", speechPunchline: "I didn't know you could yodel!",
-//         cardPunchline: "I didn't know you could yodel!"},
-//     {setup: "A broken pencil", speechPunchline: "Never mind. It's pointless.",
-//         cardPunchline: "Never mind. It's pointless."},
-//     {setup: "Snow", speechPunchline: "Snow use. I forgot", cardPunchline: "Snow use. I forgot"},
-//     {setup: "Boo", speechPunchline: "Aww <break time=\"0.3s\" /> it's okay <break time=\"0.3s\" /> don't cry.",
-//         cardPunchline: "Aww, it's okay, don't cry."},
-//     {setup: "Woo", speechPunchline: "Don't get so excited, it's just a joke",
-//         cardPunchline: "Don't get so excited, it's just a joke"},
-//     {setup: "Spell", speechPunchline: "<say-as interpret-as=\"characters\">who</say-as>",
-//         cardPunchline: "w.h.o"},
-//     {setup: "Atch", speechPunchline: "I didn't know you had a cold!", cardPunchline: "I didn't know you had a cold!"},
-//     {setup: "Owls", speechPunchline: "Yes, they do.", cardPunchline: "Yes, they do."},
-//     {setup: "Berry!", speechPunchline: "Berry nice to meet you.", cardPunchline: "Berry nice to meet you."}
-// ];
+ var JOKE_LIST = [
+      {setup: "I now know you are feeling sad.", speechPunchline: "Let's listen to some happy music.",
+          cardPunchline: "Let's listen to some happy music."},
+      {setup: "I now know you are feeling happy", speechPunchline: "Let's Dance!", cardPunchline: "Let's Dance!"},
+      {setup: "I now know you are feeling anxious", speechPunchline: "Try counting down slowly from 10",
+          cardPunchline: "Try counting down slowly from 10."},
+      {setup: "I now know you are angry", speechPunchline: "Why don't you try writing about it?",
+          cardPunchline: "Why don't you try writing about it?"},
+      {setup: "I now know that you are embarrassed.", speechPunchline: "Why don't you tell me why you're embarrassed?", cardPunchline: "Why don't you tell me why you're embarrassed?"},
+      {setup: "I now know that you are stressed.", speechPunchline: "Why don't you try some positive visualizations?",
+          cardPunchline: "Why don't you try some positive visualizations?"},
+      {setup: "I now know that you can't sleep", speechPunchline: "I'll cool down the room a bit.",
+          cardPunchline: "I'll cool down the room a bit."},
+      {setup: "I now know you feel overwhelmed", speechPunchline: "Why don't you make a to do list?",
+          cardPunchline: "Why don'y ou make a to do list?"},
+      {setup: "I now know you are excited!", speechPunchline: "Why don't you tell me about it?", cardPunchline: "Why don't you tell me about it it?"},
+  ];
 
 /**
  * The AlexaSkill prototype and helper functions
