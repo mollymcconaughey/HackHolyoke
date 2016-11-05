@@ -118,6 +118,8 @@ function setFeelingInSession(intent, session, callback) {
 }
 
 function boredResponse (intent, session, callback) {
+    let sessionAttributes = {};
+    let speechOutput = '';
     const cardTitle = intent.name;
     const boredResponseSlot = intent.slots.BoredResponse;
     let repromptText = '';
