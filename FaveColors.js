@@ -59,11 +59,9 @@ function getWelcomeResponse(callback) {
         buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
 }
 
-
-
 function handleSessionEndHappy(callback) {
     const cardTitle = 'Session Ended';
-    const speechOutput = 'Pick a good song and rock out!';
+    const speechOutput = 'Great! Put on a good song and rock out.  I\'ll be here when you\'re done!';
     // Setting this to true ends the session and exits the skill.
     const shouldEndSession = true;
 
@@ -72,7 +70,7 @@ function handleSessionEndHappy(callback) {
 
 function handleSessionEndAnxious(callback) {
     const cardTitle = 'Session Ended';
-    const speechOutput = 'I\'m glad you\'re feeling better. Let me know if you need anything else.';
+    const speechOutput = '10. 9. 8. 7. 6. 5. 4. 3. 2. 1.   I hope you\'re feeling better. Let me know if you need anything else.';
     // Setting this to true ends the session and exits the skill.
     const shouldEndSession = true;
 
@@ -81,7 +79,7 @@ function handleSessionEndAnxious(callback) {
 
 function handleSessionEndBored(callback) {
     const cardTitle = 'Session Ended';
-    const speechOutput = 'Here\'s another few fun things for you: Camels have three eyelids. India has a Bill of Rights for Cows.  And two thirds of the world\'s eggplant is grown in New Jersey.';
+    const speechOutput = 'Here\'s another few fun things for you: The average raindrop falls at seven miles per hour. India has a Bill of Rights for Cows.  And two thirds of the world\'s eggplant is grown in New Jersey.';
     // Setting this to true ends the session and exits the skill.
     const shouldEndSession = true;
 
@@ -90,7 +88,7 @@ function handleSessionEndBored(callback) {
 
 function handleSessionEndDefault(callback) {
     const cardTitle = 'Session Ended';
-    const speechOutput = 'Have a nice day. Let me know if you want to talk about anything else.';
+    const speechOutput = 'I hope I\'ve been helpful. Have a nice day, and let me know if you want to talk about anything else.';
     // Setting this to true ends the session and exits the skill.
     const shouldEndSession = true;
 
@@ -129,7 +127,7 @@ function setFeelingInSession(intent, session, callback) {
         speechOutput += `Okay you are ${feeling}  `;
 
         if(feeling === 'bored'){
-          speechOutput += 'How about a paint by numbers? Or you could listen to a podcast or go on a pic nic.';
+          speechOutput += 'How about doing a puzzle? Or you could read a story, or go on a picnic.';
         }
         else if(feeling === 'happy'  || feeling === 'joyful' || feeling === 'excited'){
           speechOutput += `Fantastic! Do you want to dance?`;
@@ -140,11 +138,11 @@ function setFeelingInSession(intent, session, callback) {
            repromptText = "You can ask me what to do by saying, I am bored";
            //shouldEndSession = true;
          }else if(feeling === 'anxious' || feeling === 'nervous' || feeling === 'antsy' || feeling === 'irritated'){
-           speechOutput +=  'Why don’t you try sqeezing a fist for 5 seconds, then relaxing for 7?';
+           speechOutput +=  `Do you want to count down from 10?`;
            repromptText = "You can ask me what to do by saying, I am bored";
            //shouldEndSession = true;
          }else if(feeling === 'angry' || feeling === 'mad' || feeling === 'furious' || feeling == 'fuming'){
-           speechOutput += `Do you want to count down from 10?`;
+           speechOutput += 'Why don’t you try squeezing a fist for 5 seconds, then relaxing for 7?';
            repromptText = "You can ask me what to do by saying, I am bored";
            //shouldEndSession = true;
          }else if(feeling === 'embarrassed' || feeling === 'ashamed'){
@@ -239,7 +237,8 @@ function getFeelingFromSession(intent, session, callback) {
 
     if (feeling) {
       if(feeling === 'happy'){
-      handleSessionEndHappy(callback);
+      handleSessionEndHappy(callback)
+
     }else if(feeling === 'anxious'){
       handleSessionEndAnxious(callback);
     }else if(feeling === 'bored'){
