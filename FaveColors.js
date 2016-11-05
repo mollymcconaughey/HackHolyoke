@@ -61,7 +61,34 @@ function getWelcomeResponse(callback) {
 
 
 
-function handleSessionEndRequest(callback) {
+function handleSessionEndHappy(callback) {
+    const cardTitle = 'Session Ended';
+    const speechOutput = 'Pick a good song and rock out!';
+    // Setting this to true ends the session and exits the skill.
+    const shouldEndSession = true;
+
+    callback({}, buildSpeechletResponse(cardTitle, speechOutput, null, shouldEndSession));
+}
+
+function handleSessionEndAnxious(callback) {
+    const cardTitle = 'Session Ended';
+    const speechOutput = 'I\'m glad you\'re feeling better. Let me know if you need anything else.';
+    // Setting this to true ends the session and exits the skill.
+    const shouldEndSession = true;
+
+    callback({}, buildSpeechletResponse(cardTitle, speechOutput, null, shouldEndSession));
+}
+
+function handleSessionEndBored(callback) {
+    const cardTitle = 'Session Ended';
+    const speechOutput = 'Here\'s another few fun things for you: Camels have three eyelids. India has a Bill of Rights for Cows.  And two thirds of the world\'s eggplant is grown in New Jersey.';
+    // Setting this to true ends the session and exits the skill.
+    const shouldEndSession = true;
+
+    callback({}, buildSpeechletResponse(cardTitle, speechOutput, null, shouldEndSession));
+}
+
+function handleSessionEndDefault(callback) {
     const cardTitle = 'Session Ended';
     const speechOutput = 'Have a nice day. Let me know if you want to talk about anything else.';
     // Setting this to true ends the session and exits the skill.
@@ -211,7 +238,15 @@ function getFeelingFromSession(intent, session, callback) {
     }
 
     if (feeling) {
-      handleSessionEndRequest(callback);
+      if(feeling === 'happy'){
+      handleSessionEndHappy(callback);
+    }else if(feeling === 'anxious'){
+      handleSessionEndAnxious(callback);
+    }else if(feeling === 'bored'){
+      handleSessionEndBored(callback);
+    }else{
+      handleSessionEndDefault(callback);
+    }
         // if (feeling === 'bored') {
         //     //speechOutput = `You are feeling ${feeling}.`;
         // }
