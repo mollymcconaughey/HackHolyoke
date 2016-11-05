@@ -74,6 +74,13 @@ function createFeelingAttributes(feeling) {
     };
 }
 
+function createBoredResponseAttributes(boredResponse) {
+    return {
+        boredResponse,
+    };
+}
+
+
 /**
  * Sets the color in the session and prepares the speech to reply to the user.
  */
@@ -89,8 +96,22 @@ function setFeelingInSession(intent, session, callback) {
         const feeling = feelingSlot.value;
         sessionAttributes = createFeelingAttributes(feeling);
         if (feeling === 'bored') {
-            speechOutput = I now know your feeling ${feeling}.`;
+            speechOutput = `I now know your feeling ${feeling}.`;
             repromptText = "You can ask me what to do by saying, I am bored";
+            function boredResponse (intent, session, callback) {
+                const cardTitle = intent.name;
+                const boredResponseSlot = intent.slots.BoredResponse;
+                let repromptText = '';
+                if (boredResponse) {
+                    const boredResponse = boredResponseSlot.value;
+                    sessionAttributes = createBoredResponseAttributes(boredResponse);
+                    speechOutput = `Here are some fun facts: Camels have three eyelids.`;
+                    repromptText = "You can tell me if you are still bored."
+                }
+
+            });
+
+
         }
 
 
