@@ -87,6 +87,7 @@ function createBoredResponseAttributes(boredResponse) {
 function setFeelingInSession(intent, session, callback) {
     const cardTitle = intent.name;
     const feelingSlot = intent.slots.Feeling;
+    //const responseSlot = i
     let repromptText = '';
     let sessionAttributes = {};
     const shouldEndSession = false;
@@ -96,13 +97,21 @@ function setFeelingInSession(intent, session, callback) {
         const feeling = feelingSlot.value;
         sessionAttributes = createFeelingAttributes(feeling);
         if (feeling === 'bored') {
-            speechOutput = `I now know your feeling ${feeling}.`;
+            speechOutput = `Okay you're ${feeling}.`;
             repromptText = "You can ask me what to do by saying, I am bored";
 
-            boredResponse(cardTitle, session, callback);
 
+            // shouldEndSession = false;
+        }
+        else if(feeling === 'happy'){
+          speechOutput = `Okay you're ${feeling}.`;
+        }
+        else{
+          speechOutput = `Okay.`;
         }
 
+
+        boredResponse(intent, session, callback, speechOutput);
 
         // speechOutput = `I now know your feeling is ${feeling}. You can ask me ` +
         //     "your favorite color by saying, what's my favorite color?";
@@ -113,21 +122,48 @@ function setFeelingInSession(intent, session, callback) {
             'favorite color by saying, my favorite color is red';
     }
 
-    callback(sessionAttributes,
-         buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
+    // callback(sessionAttributes,
+    //      buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
 }
 
-function boredResponse (intent, session, callback) {
+/*Bored response*/
+function boredResponse (intent, session, callback, speechOutput) {
     let sessionAttributes = {};
-    let speechOutput = '';
     const cardTitle = intent.name;
     const boredResponseSlot = intent.slots.BoredResponse;
     let repromptText = '';
-    if (boredResponse) {
+    if (boredResponse === 'yes') {
         const boredResponse = boredResponseSlot.value;
         sessionAttributes = createBoredResponseAttributes(boredResponse);
-        speechOutput = `Here are some fun facts: Camels have three eyelids.`;
+        //speechOutput = `One ${feeling}. `;
+        speechOutput += `Here are some fun activities: do a paint by numbers.`;
         repromptText = "You can tell me if you are still bored.";
+        //finalResponse(intent, session, callback, speechOutput);
+    }
+    else{
+      //finalResponse(intent, session, callback, speechOutput);
+    }
+    // callback(sessionAttributes,
+    //      buildSpeechletResponse(intent.name, speechOutput, repromptText, true));
+
+}
+
+/*final response*/
+function finalResponse (intent, session, callback, speechOutput) {
+    let sessionAttributes = {};
+    const cardTitle = intent.name;
+    const boredResponseSlot = intent.slots.BoredResponse;
+    let repromptText = '';
+    if (boredResponse === 'yes') {
+        const boredResponse = boredResponseSlot.value;
+        sessionAttributes = createBoredResponseAttributes(boredResponse);
+        //speechOutput = `One ${feeling}. `;
+        speechOutput += `Here are some fun facts: Camels have three eyelids.`;
+        repromptText = "You can tell me if you are still bored.";
+        finalResponse(intent, session, callback, speechOutput);
+    }
+    else{
+
     }
     callback(sessionAttributes,
          buildSpeechletResponse(intent.name, speechOutput, repromptText, true));
