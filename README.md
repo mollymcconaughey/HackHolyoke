@@ -1,5 +1,7 @@
 # HackHolyoke
 
+Emote is an Alexa Skill created for the Amazon Echo.
+
 ![alt text](https://github.com/mbmcconaughey17/HackHolyoke/blob/master/images/Holyoke%20Images/Emote.jpg "Slide 1")
 ![alt text](https://github.com/mbmcconaughey17/HackHolyoke/blob/master/images/Holyoke%20Images/Emote%20(1).jpg "Slide 2")
 ![alt text](https://github.com/mbmcconaughey17/HackHolyoke/blob/master/images/Holyoke%20Images/Emote%20(2).jpg "Slide 3")
