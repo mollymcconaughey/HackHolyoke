@@ -97,34 +97,60 @@ function setFeelingInSession(intent, session, callback) {
     if (feelingSlot) {
         const feeling = feelingSlot.value;
         sessionAttributes = createFeelingAttributes(feeling);
-        speechOutput += `Okay you're ${feeling}. `;
+        speechOutput += 'Okay you are ${feeling}';
 
         if (feeling === 'bored') {
-            speechOutput += "How about a paint by numbers? Or you could listen to a podcast or go on a pic nic.";
-            repromptText = "You can ask me what to do by telling me how you're feeling.";
+            speechOutput = "I now know your feeling ${feeling}.";
+            speechOutput = "Okay you're ${feeling}.";
+            repromptText = "You can ask me what to do by saying, I am bored";
 
-            //boredResponse(cardTitle, session, callback);
+            boredResponse(cardTitle, session, callback);
 
             // shouldEndSession = false;
         }
-        else if(feeling === 'happy' || feeling === 'joyful' || feeling === 'excited'){
-          speechOutput += `Fantastic! Do you want to dance?`;
-          repromptText = "You can ask me what to do by telling me how you're feeling.";
-        }else if(feeling === 'sad' || feeling === 'upset' || feeling === 'depressed' || feeling === 'unhappy'){
-          speechOutput += 'Tell me what happened.';
-          repromptText = "You can ask me what to do by telling me how you're feeling.";
-        }else if(feeling === 'anxious' || feeling === 'nervous' || feeling === 'antsy' || feeling === 'irritated'){
-          speechOutput +=  'Why don’t you try sqeezing a fist for 5 seconds, then relaxing for 7?';
-          repromptText = "You can ask me what to do by telling me how you're feeling.";
-        }else if(feeling === 'angry' || feeling === 'mad' || feeling === 'furious' || feeling == 'fuming'){
-          speechOutput += `Do you want to count down from 10?`;
-          repromptText = "You can ask me what to do by telling me how you're feeling.";
-        }else if(feeling === 'embarrassed' || feeling === 'ashamed'){
-          speechOutput += `It's okay. Tell me what happened.`;
-          repromptText = "You can ask me what to do by telling me how you're feeling.";
-        }else{
+        else if(feeling === 'happy'){
+          speechOutput = `Okay you're ${feeling}.`;
+        }
+        else{
           speechOutput = `Okay.`;
         }
+
+        // if (feeling === 'bored') {
+        //     speechOutput += "How about a paint by numbers? Or you could listen to a podcast or go on a pic nic.";
+        //     repromptText = 'You can ask me what to do by saying, I am bored';
+        //     shouldEndSession = true;
+        // }
+        // else if(feeling === 'happy'  || feeling === 'joyful' || feeling === 'excited'){
+        //   speechOutput += `Fantastic! Do you want to dance?`;
+        //   repromptText = "You can ask me what to do by saying, I am bored";
+        //   shouldEndSession = true;
+        // }
+        // else if(feeling === 'sad' || feeling === 'upset' || feeling === 'depressed' || feeling === 'unhappy'){
+        //   speechOutput += 'Tell me what happened.';
+        //   repromptText = "You can ask me what to do by saying, I am bored";
+        //   shouldEndSession = true;
+        // }
+        // else if(feeling === 'anxious' || feeling === 'nervous' || feeling === 'antsy' || feeling === 'irritated'){
+        //   speechOutput +=  'Why don’t you try sqeezing a fist for 5 seconds, then relaxing for 7?';
+        //   repromptText = "You can ask me what to do by saying, I am bored";
+        //   shouldEndSession = true;
+        // }
+        // else if(feeling === 'angry' || feeling === 'mad' || feeling === 'furious' || feeling == 'fuming'){
+        //   speechOutput += `Do you want to count down from 10?`;
+        //   repromptText = "You can ask me what to do by saying, I am bored";
+        //   shouldEndSession = true;
+        // }
+        // else if(feeling === 'embarrassed' || feeling === 'ashamed'){
+        //   speechOutput += `It's okay. Tell me what happened.`;
+        //   repromptText = "You can ask me what to do by saying, I am bored";
+        //   shouldEndSession = true;
+        // }
+        // else{
+        //   speechOutput += "Okay.";
+        //   repromptText = "You can ask me what to do by saying, I am bored";
+        //   shouldEndSession = true;
+        //
+        // }
 
         // speechOutput = `I now know your feeling is ${feeling}. You can ask me ` +
         //     "your favorite color by saying, what's my favorite color?";
@@ -133,7 +159,7 @@ function setFeelingInSession(intent, session, callback) {
         speechOutput = "I'm not sure what your feeling. Please try again.";
         repromptText = "I'm not sure what your feeling. You can tell me you are " +
             'faeeling by saying, I feel bored.';
-        //shouldEndSession = false;
+        shouldEndSession = false;
     }
 
     callback(sessionAttributes,
@@ -209,8 +235,6 @@ function getFeelingFromSession(intent, session, callback) {
         //shouldEndSession = true;
     } else {
         speechOutput = "How are you feeling today?"
-        shouldEndSession = true;
-
     }
 
     // Setting repromptText to null signifies that we do not want to reprompt the user.
