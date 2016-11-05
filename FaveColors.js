@@ -59,9 +59,11 @@ function getWelcomeResponse(callback) {
         buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
 }
 
+
+
 function handleSessionEndRequest(callback) {
     const cardTitle = 'Session Ended';
-    const speechOutput = 'Thank you for trying the Alexa Skills Kit sample. Have a nice day!';
+    const speechOutput = 'Have a nice day. Let me know if you want to talk about anything else.';
     // Setting this to true ends the session and exits the skill.
     const shouldEndSession = true;
 
@@ -130,7 +132,7 @@ function setFeelingInSession(intent, session, callback) {
         }
 
 
-
+        //shouldEndSession = true;
 
 
         // speechOutput = `I now know your feeling is ${feeling}. You can ask me ` +
@@ -209,13 +211,15 @@ function getFeelingFromSession(intent, session, callback) {
     }
 
     if (feeling) {
-        if (feeling === 'bored') {
-            speechOutput = `You are feeling ${feeling}.`;
-        }
+      handleSessionEndRequest(callback);
+        // if (feeling === 'bored') {
+        //     //speechOutput = `You are feeling ${feeling}.`;
+        // }
         // speechOutput = `You are feeling ${feeling}.`;
         //shouldEndSession = true;
     } else {
         speechOutput = "How are you feeling today?"
+
     }
 
     // Setting repromptText to null signifies that we do not want to reprompt the user.

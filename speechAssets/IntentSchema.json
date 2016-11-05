@@ -1,52 +1,25 @@
 {
-  "intents": [
-    {
-      "intent": "BoredIntent",
-      "slots": [
+    "intents": [
         {
-          "answer": "answer"
-          //"type": "LIST_OF_PLAYER_NAMES"
-        }
-      ]
-    },
-    {
-      "intent": "EnergeticIntent",
-      "slots": [
-        {
-          "answer": "answer"
-        }
-      ]
-    },
-    {
-      "intent": "AddScoreIntent",
-      "slots": [
-        {
-          "name": "PlayerName",
-          "type": "LIST_OF_PLAYER_NAMES"
+            "intent": "AMAZON.ResumeIntent"
         },
         {
-          "name": "ScoreNumber",
-          "type": "AMAZON.NUMBER"
+            "intent": "AMAZON.PauseIntent"
+        },
+        {
+            "intent": "MyFeelingIsIntent",
+            "slots": [
+                {
+                    "name": "Feeling",
+                    "type": "LIST_OF_FEELINGS"
+                }
+            ]
+        },
+        {
+            "intent": "WhatsMyFeelingIntent"
+        },
+        {
+            "intent": "AMAZON.HelpIntent"
         }
-      ]
-    },
-    {
-      "intent": "ResetPlayersIntent"
-    },
-    {
-      "intent": "NewGameIntent"
-    },
-    {
-      "intent": "TellScoresIntent"
-    },
-    {
-      "intent": "AMAZON.HelpIntent"
-    },
-    {
-      "intent": "AMAZON.StopIntent"
-    },
-    {
-      "intent": "AMAZON.CancelIntent"
-    }
-  ]
+    ]
 }
