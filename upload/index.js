@@ -151,13 +151,13 @@ function handleFeelingIntent(session, response) {
             speechText = "Are you still ${feelingSlot.value}";
 
         } else {
-            The user attempted to jump to the intent of another stage.
+            //The user attempted to jump to the intent of another stage.
             session.attributes.stage = 0;
             speechText = "That's not how knock knock jokes work! "
                 + "knock knock";
         }
     } else {
-        Select a random joke and store it in the session variables.
+        //Select a random joke and store it in the session variables.
         var jokeID = Math.floor(Math.random() * JOKE_LIST.length);
 
         //The stage variable tracks the phase of the dialogue.
