@@ -80,7 +80,6 @@ function createBoredResponseAttributes(boredResponse) {
     };
 }
 
-
 /**
  * Sets the color in the session and prepares the speech to reply to the user.
  */
@@ -104,14 +103,14 @@ function setFeelingInSession(intent, session, callback) {
             // shouldEndSession = false;
         }
         else if(feeling === 'happy'){
-          speechOutput = `Okay you're ${feeling}.`;
+          speechOutput = `Okay you are ${feeling}.`;
         }
         else{
           speechOutput = `Okay.`;
         }
 
 
-        boredResponse(intent, session, callback, speechOutput);
+        boredResponseF(intent, session, callback, speechOutput);
 
         // speechOutput = `I now know your feeling is ${feeling}. You can ask me ` +
         //     "your favorite color by saying, what's my favorite color?";
@@ -126,8 +125,10 @@ function setFeelingInSession(intent, session, callback) {
     //      buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
 }
 
+
+
 /*Bored response*/
-function boredResponse (intent, session, callback, speechOutput) {
+function boredResponseF (intent, session, callback, speechOutput) {
     let sessionAttributes = {};
     const cardTitle = intent.name;
     const boredResponseSlot = intent.slots.BoredResponse;
@@ -138,7 +139,7 @@ function boredResponse (intent, session, callback, speechOutput) {
         //speechOutput = `One ${feeling}. `;
         speechOutput += `Here are some fun activities: do a paint by numbers.`;
         repromptText = "You can tell me if you are still bored.";
-        //finalResponse(intent, session, callback, speechOutput);
+        finalResponse(intent, session, callback, speechOutput);
     }
     else{
       //finalResponse(intent, session, callback, speechOutput);
@@ -147,6 +148,8 @@ function boredResponse (intent, session, callback, speechOutput) {
     //      buildSpeechletResponse(intent.name, speechOutput, repromptText, true));
 
 }
+
+
 
 /*final response*/
 function finalResponse (intent, session, callback, speechOutput) {
@@ -160,7 +163,7 @@ function finalResponse (intent, session, callback, speechOutput) {
         //speechOutput = `One ${feeling}. `;
         speechOutput += `Here are some fun facts: Camels have three eyelids.`;
         repromptText = "You can tell me if you are still bored.";
-        finalResponse(intent, session, callback, speechOutput);
+        //finalResponse(intent, session, callback, speechOutput);
     }
     else{
 
@@ -169,6 +172,7 @@ function finalResponse (intent, session, callback, speechOutput) {
          buildSpeechletResponse(intent.name, speechOutput, repromptText, true));
 
 }
+
 
 
 function getFeelingFromSession(intent, session, callback) {
