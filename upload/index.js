@@ -50,6 +50,8 @@ HackFeelings.prototype.constructor = HackFeelings;
 HackFeelings.prototype.eventHandlers.onSessionStarted = function (sessionStartedRequest, session) {
     console.log("onSessionStarted requestId: " + sessionStartedRequest.requestId
         + ", sessionId: " + session.sessionId);
+        //handleFeelingIntent(session, response);
+
 
     // Any session init logic would go here.
 };
@@ -131,7 +133,7 @@ HackFeelings.prototype.intentHandlers = {
  */
 function handleFeelingIntent(session, response) {
     var speechText = "";
-    const feelingSlot = intent.slots.Feeling; //get slot
+    const feelingSlot = AlexaSkill.intentSlots.Feeling; //get slot
 
     //Reprompt speech will be triggered if the user doesn't respond.
     var repromptText = "Are you still bored?";
@@ -182,7 +184,7 @@ function handleFeelingIntent(session, response) {
 function handlefirstResponseIntent(session, response) {
     var feeling = "";
     var repromptText = "";
-    const responseSlot = intent.slots.Response; //get slot
+    const responseSlot = AlexaSkill.intentSlots.Response; //get slot
     const responseVal = responseSlot.value;
 
     if (session.attributes.stage) {
