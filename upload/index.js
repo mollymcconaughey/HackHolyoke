@@ -23,6 +23,9 @@ var APP_ID = 'amzn1.echo-sdk-ams.app.be3ad8ab-b28a-4eba-b9bd-44deebdd11ae';//rep
       {setup: "I now know you feel overwhelmed", speechPunchline: "Why don't you make a to do list?",
           cardPunchline: "Why don'y ou make a to do list?"},
       {setup: "I now know you are excited!", speechPunchline: "Why don't you tell me about it?", cardPunchline: "Why don't you tell me about it it?"},
+      {setup: "I now know you are excited!", speechPunchline: "Why don't you tell me about it?", cardPunchline: "Why don't you tell me about it it?"},
+      {setup: "I now know you are excited!", speechPunchline: "Why don't you tell me about it?", cardPunchline: "Why don't you tell me about it it?"}
+
   ];
 
 /**
@@ -133,7 +136,7 @@ HackFeelings.prototype.intentHandlers = {
  */
 function handleFeelingIntent(session, response) {
     var speechText = "";
-    const feelingSlot = AlexaSkill.intentSlots.Feeling; //get slot
+    const feelingSlot = AlexaSkill.intentSlotsFeeling; //get slot
 
     //Reprompt speech will be triggered if the user doesn't respond.
     var repromptText = "Are you still bored?";
@@ -184,7 +187,8 @@ function handleFeelingIntent(session, response) {
 function handlefirstResponseIntent(session, response) {
     var feeling = "";
     var repromptText = "";
-    const responseSlot = AlexaSkill.intentSlots.Response; //get slot
+    const responseSlot = AlexaSkill.intentSlotsResponse; //get slot
+
     const responseVal = responseSlot.value;
 
     if (session.attributes.stage) {
@@ -232,61 +236,61 @@ function handlefirstResponseIntent(session, response) {
 /**
  * Delivers the punchline of the joke after the user responds to the setup.
  */
-// function handleSetupNameWhoIntent(session, response) {
-//     var speechText = "",
-//         repromptText = "",
-//         speechOutput,
-//         repromptOutput,
-//         cardOutput;
+function handleSetupNameWhoIntent(session, response) {
+    var speechText = "",
+        repromptText = "",
+        speechOutput,
+        repromptOutput,
+        cardOutput;
 
-//     if (session.attributes.stage) {
-//         if (session.attributes.stage === 2) {
-//             speechText = session.attributes.speechPunchline;
-//             cardOutput = session.attributes.cardPunchline;
-//             speechOutput = {
-//                 speech: '<speak>' + speechText + '</speak>',
-//                 type: AlexaSkill.speechOutputType.SSML
-//             };
-//             //If the joke completes successfully, this function uses a "tell" response.
-//             response.tellWithCard(speechOutput, "Wise Guy", cardOutput);
-//         } else {
+    if (session.attributes.stage) {
+        if (session.attributes.stage === 2) {
+            speechText = session.attributes.speechPunchline;
+            cardOutput = session.attributes.cardPunchline;
+            speechOutput = {
+                speech: '<speak>' + speechText + '</speak>',
+                type: AlexaSkill.speechOutputType.SSML
+            };
+            //If the joke completes successfully, this function uses a "tell" response.
+            response.tellWithCard(speechOutput, "Wise Guy", cardOutput);
+        } else {
 
-//             session.attributes.stage = 1;
-//             speechText = "That's not how knock knock jokes work! <break time=\"0.3s\" /> "
-//                 + "Knock knock!";
-//             cardOutput = "That's not how knock knock jokes work! "
-//                 + "Knock knock!";
+            session.attributes.stage = 1;
+            speechText = "That's not how knock knock jokes work! <break time=\"0.3s\" /> "
+                + "Knock knock!";
+            cardOutput = "That's not how knock knock jokes work! "
+                + "Knock knock!";
 
-//             repromptText = "You can ask who's there.";
+            repromptText = "You can ask who's there.";
 
-//             speechOutput = {
-//                 speech: speechText,
-//                 type: AlexaSkill.speechOutputType.SSML
-//             };
-//             repromptOutput = {
-//                 speech: repromptText,
-//                 type: AlexaSkill.speechOutputType.PLAIN_TEXT
-//             };
-//             //If the joke has to be restarted, this function uses an "ask" response.
-//             response.askWithCard(speechOutput, repromptOutput, "Wise Guy", cardOutput);
-//         }
-//     } else {
-//         speechText = "Sorry, I couldn't correctly retrieve the joke. "
-//             + "You can say, tell me a joke";
+            speechOutput = {
+                speech: speechText,
+                type: AlexaSkill.speechOutputType.SSML
+            };
+            repromptOutput = {
+                speech: repromptText,
+                type: AlexaSkill.speechOutputType.PLAIN_TEXT
+            };
+            //If the joke has to be restarted, this function uses an "ask" response.
+            response.askWithCard(speechOutput, repromptOutput, "Wise Guy", cardOutput);
+        }
+    } else {
+        speechText = "Sorry, I couldn't correctly retrieve the joke. "
+            + "You can say, tell me a joke";
 
-//         repromptText = "You can say, tell me a joke";
+        repromptText = "You can say, tell me a joke";
 
-//         speechOutput = {
-//             speech: speechText,
-//             type: AlexaSkill.speechOutputType.PLAIN_TEXT
-//         };
-//         repromptOutput = {
-//             speech: repromptText,
-//             type: AlexaSkill.speechOutputType.PLAIN_TEXT
-//         };
-//         response.askWithCard(speechOutput, repromptOutput, "Hack Feelings", speechOutput);
-//     }
-// }
+        speechOutput = {
+            speech: speechText,
+            type: AlexaSkill.speechOutputType.PLAIN_TEXT
+        };
+        repromptOutput = {
+            speech: repromptText,
+            type: AlexaSkill.speechOutputType.PLAIN_TEXT
+        };
+        response.askWithCard(speechOutput, repromptOutput, "Hack Feelings", speechOutput);
+    }
+}
 
 // Create the handler that responds to the Alexa Request.
 exports.handler = function (event, context) {

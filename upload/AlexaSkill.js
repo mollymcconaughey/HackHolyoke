@@ -60,7 +60,8 @@ AlexaSkill.prototype.eventHandlers = {
         var intent = intentRequest.intent,
             intentName = intentRequest.intent.name,
             intentHandler = this.intentHandlers[intentName]
-            intentSlots = intentRequest.slots;
+            intentSlotsFeeling = intentRequest.slots.Feeling;
+            intentSlotsResponse = intentRequest.slots.Response;
         if (intentHandler) {
             console.log('dispatch intent = ' + intentName);
             intentHandler.call(this, intent, session, response);
