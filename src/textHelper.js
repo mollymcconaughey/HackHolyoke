@@ -31,30 +31,32 @@ var textHelper = (function () {
             return answer;
         }
 
-
-
-
-
-
-
-        getPlayerName: function (recognizedPlayerName) {
-            if (!recognizedPlayerName) {
-                return undefined;
-            }
-            var split = recognizedPlayerName.indexOf(' '), newName;
-
-            if (split < 0) {
-                newName = recognizedPlayerName;
-            } else {
-                //the name should only contain a first name, so ignore the second part if any
-                newName = recognizedPlayerName.substring(0, split);
-            }
-            if (nameBlacklist[newName]) {
-                //if the name is on our blacklist, it must be mis-recognition
-                return undefined;
-            }
-            return newName;
+        energeticYes: function (answer) {
+            return answer;
         }
+
+
+
+
+
+        // getPlayerName: function (recognizedPlayerName) {
+        //     if (!recognizedPlayerName) {
+        //         return undefined;
+        //     }
+        //     var split = recognizedPlayerName.indexOf(' '), newName;
+
+        //     if (split < 0) {
+        //         newName = recognizedPlayerName;
+        //     } else {
+        //         //the name should only contain a first name, so ignore the second part if any
+        //         newName = recognizedPlayerName.substring(0, split);
+        //     }
+        //     if (nameBlacklist[newName]) {
+        //         //if the name is on our blacklist, it must be mis-recognition
+        //         return undefined;
+        //     }
+        //     return newName;
+        // }
     };
 })();
 module.exports = textHelper;

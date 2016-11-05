@@ -10,6 +10,14 @@
       ]
     },
     {
+      "intent": "EnergeticIntent",
+      "slots": [
+        {
+          "answer": "answer"
+        }
+      ]
+    },
+    {
       "intent": "AddScoreIntent",
       "slots": [
         {
