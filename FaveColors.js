@@ -97,7 +97,7 @@ function setFeelingInSession(intent, session, callback) {
     if (feelingSlot) {
         const feeling = feelingSlot.value;
         sessionAttributes = createFeelingAttributes(feeling);
-        speechOutput += `Okay you are ${feeling}.`;
+        speechOutput += `Okay you are ${feeling}  `;
 
         if(feeling === 'bored'){
           speechOutput += 'How about a paint by numbers? Or you could listen to a podcast or go on a pic nic.';
