@@ -4,7 +4,7 @@
       "intent": "BoredIntent",
       "slots": [
         {
-          //"name": "PlayerName",
+          "answer": "answer"
           //"type": "LIST_OF_PLAYER_NAMES"
         }
       ]

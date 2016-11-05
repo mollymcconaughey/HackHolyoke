@@ -1,3 +1,6 @@
+BoredIntent i am bored
+BoredIntent bored
+
 ResetPlayersIntent clear
 ResetPlayersIntent clear a game
 ResetPlayersIntent clear game
