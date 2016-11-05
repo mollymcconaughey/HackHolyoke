@@ -194,4 +194,4 @@ Response.prototype = (function () {
     };
 })();
 
-//module.exports = AlexaSkill;
+module.exports = AlexaSkill;
