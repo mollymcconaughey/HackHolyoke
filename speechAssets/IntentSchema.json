@@ -1,11 +1,11 @@
 {
   "intents": [
     {
-      "intent": "AddPlayerIntent",
+      "intent": "BoredIntent",
       "slots": [
         {
-          "name": "PlayerName",
-          "type": "LIST_OF_PLAYER_NAMES"
+          //"name": "PlayerName",
+          //"type": "LIST_OF_PLAYER_NAMES"
         }
       ]
     },

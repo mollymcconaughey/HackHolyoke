@@ -25,6 +25,18 @@ var textHelper = (function () {
         + ' and exit.',
         nextHelp: 'You can give a player points, add a player, get the current score, or say help. What would you like?',
 
+        
+
+        boredYes: function (answer) {
+            return answer;
+        }
+
+
+
+
+
+
+
         getPlayerName: function (recognizedPlayerName) {
             if (!recognizedPlayerName) {
                 return undefined;

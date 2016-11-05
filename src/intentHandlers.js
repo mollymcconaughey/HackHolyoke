@@ -42,47 +42,61 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
         });
     };
 
-    intentHandlers.AddPlayerIntent = function (intent, session, response) {
-        //add a player to the current game,
-        //terminate or continue the conversation based on whether the intent
-        //is from a one shot command or not.
-        var newPlayerName = textHelper.getPlayerName(intent.slots.PlayerName.value);
-        if (!newPlayerName) {
-            response.ask('OK. Who do you want to add?', 'Who do you want to add?');
-            return;
-        }
-        storage.loadGame(session, function (currentGame) {
-            var speechOutput,
-                reprompt;
-            if (currentGame.data.scores[newPlayerName] !== undefined) {
-                speechOutput = newPlayerName + ' has already joined the game.';
-                if (skillContext.needMoreHelp) {
-                    response.ask(speechOutput + ' What else?', 'What else?');
-                } else {
-                    response.tell(speechOutput);
-                }
-                return;
+    intentHandlers.BoredIntent = function (intent, session, response) {
+        //reacts to user saying they are bored
+        //suggest list of activities to do, fun facts if necessary
+        response.ask('You\'re bored huh?', 'Well, you could do a paint-by-numbers, or a crossword puzzle. You could listen to a podcast or find a park and have a picnic.');
+
+        intentHandlers.boredYes = function (intent, session, response) {
+            var answer = textHelper.BoredYes(intent.slots.PlayerName.value);
+            if (answer === 'yes') {
+                response.tell('Here are some fun facts to entertain you:', 'Camels have 3 eyelids. India has a Bill of Rights for cows. The average raindrop falls at 7 miles per hour.');
+            } else {
+                response.tell('Glad I could help.');
             }
-            speechOutput = newPlayerName + ' has joined your game. ';
-            currentGame.data.players.push(newPlayerName);
-            currentGame.data.scores[newPlayerName] = 0;
-            if (skillContext.needMoreHelp) {
-                if (currentGame.data.players.length == 1) {
-                    speechOutput += 'You can say, I am Done Adding Players. Now who\'s your next player?';
-                    reprompt = textHelper.nextHelp;
-                } else {
-                    speechOutput += 'Who is your next player?';
-                    reprompt = textHelper.nextHelp;
-                }
-            }
-            currentGame.save(function () {
-                if (reprompt) {
-                    response.ask(speechOutput, reprompt);
-                } else {
-                    response.tell(speechOutput);
-                }
-            });
+
+
         });
+
+
+
+        // var newPlayerName = textHelper.getPlayerName(intent.slots.PlayerName.value);
+        // if (!newPlayerName) {
+        //     response.ask('OK. Who do you want to add?', 'Who do you want to add?');
+        //     return;
+        // }
+        // storage.loadGame(session, function (currentGame) {
+        //     var speechOutput,
+        //         reprompt;
+        //     if (currentGame.data.scores[newPlayerName] !== undefined) {
+        //         speechOutput = newPlayerName + ' has already joined the game.';
+        //         if (skillContext.needMoreHelp) {
+        //             response.ask(speechOutput + ' What else?', 'What else?');
+        //         } else {
+        //             response.tell(speechOutput);
+        //         }
+        //         return;
+        //     }
+        //     speechOutput = newPlayerName + ' has joined your game. ';
+        //     currentGame.data.players.push(newPlayerName);
+        //     currentGame.data.scores[newPlayerName] = 0;
+        //     if (skillContext.needMoreHelp) {
+        //         if (currentGame.data.players.length == 1) {
+        //             speechOutput += 'You can say, I am Done Adding Players. Now who\'s your next player?';
+        //             reprompt = textHelper.nextHelp;
+        //         } else {
+        //             speechOutput += 'Who is your next player?';
+        //             reprompt = textHelper.nextHelp;
+        //         }
+        //     }
+        //     currentGame.save(function () {
+        //         if (reprompt) {
+        //             response.ask(speechOutput, reprompt);
+        //         } else {
+        //             response.tell(speechOutput);
+        //         }
+        //     });
+        // });
     };
 
     intentHandlers.AddScoreIntent = function (intent, session, response) {
